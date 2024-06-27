@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PALM Sheet Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <h1>PALM Sheet for Technical File</h1>
+
+    <form id="palmForm">
+        <div class="form-group">
+            <label for="launchDate">Launch Date</label>
+            <input type="date" id="launchDate" name="launchDate">
+        </div>
+        
+        <div class="form-group">
+            <label for="businessUnit">Business Unit</label>
+            <input type="text" id="businessUnit" name="businessUnit">
+        </div>
+
+        <div class="form-group">
+            <label for="productName">Product Name (Developer)</label>
+            <input type="text" id="productName" name="productName">
+        </div>
+
+        <div class="form-group">
+            <label for="developer">Developer</label>
+            <input type="text" id="developer" name="developer">
+        </div>
+
+        <div class="form-group">
+            <label for="requestDate">Date of the Request</label>
+            <input type="date" id="requestDate" name="requestDate">
+        </div>
+
+        <div class="form-group">
+            <label for="aimOfDevelopment">Aim of Development</label>
+            <input type="text" id="aimOfDevelopment" name="aimOfDevelopment">
+        </div>
+
+        <div class="form-group">
+            <label for="formulaProjectName">Formula Project & Name</label>
+            <input type="text" id="formulaProjectName" name="formulaProjectName">
+        </div>
+
+        <div class="form-group">
+            <label for="sensoryColor">Sensory Color / Farbe</label>
+            <select id="sensoryColor" name="sensoryColor">
+                <option value="">Select Color</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="phValue">pH Value</label>
+            <select id="phValue" name="phValue">
+                <option value="">Select pH Value</option>
+            </select>
+        </div>
+
+        <button type="submit">Download Excel</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('options.json')
+                .then(response => response.json())
+                .then(data => {
+                    const sensoryColorSelect = document.getElementById('sensoryColor');
+                    data.sensoryColorOptions.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        sensoryColorSelect.appendChild(opt);
+                    });
+
+                    const phValueSelect = document.getElementById('phValue');
+                    data.phValueOptions.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        phValueSelect.appendChild(opt);
+                    });
+                })
+                .catch(error => console.error('Error loading JSON:', error));
+        });
+
+        document.getElementById('palmForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const data = {
+                launchDate: document.getElementById('launchDate').value,
+                businessUnit: document.getElementById('businessUnit').value,
+                productName: document.getElementById('productName').value,
+                developer: document.getElementById('developer').value,
+                requestDate: document.getElementById('requestDate').value,
+                aimOfDevelopment: document.getElementById('aimOfDevelopment').value,
+                formulaProjectName: document.getElementById('formulaProjectName').value,
+                sensoryColor: document.getElementById('sensoryColor').value,
+                phValue: document.getElementById('phValue').value,
+            };
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet([data]);
+            XLSX.utils.book_append_sheet(wb, ws, 'PALM Sheet');
+            XLSX.writeFile(wb, 'PALM_Sheet.xlsx');
+        });
+    </script>
+
+</body>
+</html>
