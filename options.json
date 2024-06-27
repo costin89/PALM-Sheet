@@ -1,0 +1,28 @@
+{
+    "sensoryColorOptions": [
+        "bright blue",
+        "almost colourless to pale green yellow",
+        "almost white",
+        "amber",
+        "amber-pale yellow",
+        "amber to brown",
+        "amber to dark amber",
+        "apricot coloured",
+        "as standard sample",
+        "beige",
+        "beige to pale yellow",
+        "black",
+        "black to brown",
+        "black with gold glittery effect",
+        "blue",
+        "blue to brown",
+        "blue to green",
+        "blue to turquoise",
+        "blue, dark greenish"
+    ],
+    "phValueOptions": [
+        "Bulk + Finished good",
+        "Finished good ; 30months",
+        "Unknow"
+    ]
+}
